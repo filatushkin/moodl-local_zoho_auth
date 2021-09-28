@@ -1,0 +1,7 @@
+{
+    "name": "filatushkin/mld_local_zoho_auth",
+    "description": "Moodle local plugin for zoho auth",
+    "require": {
+        "php": ">=7.0"
+    }
+}

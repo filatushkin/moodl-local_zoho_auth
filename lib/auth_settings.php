@@ -1,7 +1,6 @@
 <?php
 
-require_once( '../../../config.php' );
-//require_once(__DIR__.'/classes/settings_form.php');
+require_once('../../../config.php');
 
 require_login();
 
@@ -20,44 +19,39 @@ $mform = new \local_zoho_auth\settings_form($url);
 
 $configs = $DB->get_records_sql("select * from {config} where name like '%zoho_auth%'");
 
-if($configs){
+if ($configs) {
     $data = array();
-    foreach($configs as $config){
+    foreach ($configs as $config) {
         $data[$config->name] = $config->value;
     }
-    
+
     $mform->set_data($data);
 }
 
 $fromform = $mform->get_data();
 
-if ($fromform ){
+if ($fromform) {
 
-     foreach($fromform as $key=>$value){
-         if(strpos($key,'zoho_auth') === false) continue;
-         
-         $exists = $DB->get_record('config',array('name'=>$key));
-         
-         if(!$exists){
-             $exists = new \stdClass();
-             $exists->name = $key;
-             $exists->value = $value;
-             $DB->insert_record('config',$exists);
-         }else if( $exists->value != $value ) {
-             $exists->value = $value;
-             $DB->update_record('config',$exists);
-         }
-     }
+    foreach ($fromform as $key => $value) {
+        if (strpos($key, 'zoho_auth') === false) continue;
 
-     redirect($url, get_string('changes_saved', 'local_zoho_auth')  ,2);
-    
-}else {  
+        $exists = $DB->get_record('config', array('name' => $key));
+
+        if (!$exists) {
+            $exists = new \stdClass();
+            $exists->name = $key;
+            $exists->value = $value;
+            $DB->insert_record('config', $exists);
+        } else if ($exists->value != $value) {
+            $exists->value = $value;
+            $DB->update_record('config', $exists);
+        }
+    }
+
+    redirect($url, get_string('changes_saved', 'local_zoho_auth'), 2);
+} else {
     $mform->display();
 }
 
 
 echo $OUTPUT->footer();
-
-
-
-

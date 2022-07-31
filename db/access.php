@@ -14,5 +14,3 @@ $capabilities = array(
         'clonepermissionsfrom' => 'moodle/site:viewreports',
     ),
 );
-
-
